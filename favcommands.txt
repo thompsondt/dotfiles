@@ -1,0 +1,26 @@
+#Inquire about HDD serial number attached to /dev/sda
+sudo hdparm -I /dev/sda | grep "Serial Number:"
+
+#map device on sda1 to /mnt/backup folder
+mount /dev/sda1 /mnt/backup
+
+#find dependencies for an executable binary file example the "blender" executable
+ldd ./blender
+
+#by the way the ./ prefix means to linux that you're trying to run a binary in the local directory rather than something that you installed with apt-get.
+
+
+#run blender from the local directory in the background and render a file.
+sudo ./blender -b ~/myfile.blend -o //file -F JPEG -x 1 -f 1
+
+
+
+# tar move a directory to a server in one line
+tar zcvf - <local directory> | ssh thompson_django1 "tar xvzf -"
+
+
+# Copy a remote directory to a local directory
+ssh thompson_django1 "cd <remote path>; tar zcvf - ." | tar zxvf - -C <local path>
+
+
+lsof - list open files for a given process

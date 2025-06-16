@@ -1,0 +1,19 @@
+# Some Django Snippets
+snippet extends
+	{% extends '${1}' %}
+snippet block
+	{% block ${1:name} %}
+		${2}
+	{% endblock $1 %}
+snippet if
+	{% if ${1:condition} %}
+		${2}
+	{% endif %}
+snippet elif
+	{% elif ${1:condition} %}
+snippet for
+	{% for ${1:item} in ${2:collection} %}
+		${3}
+	{% endfor %}
+snippet url
+	{% url '${1:name}' ${2}%}

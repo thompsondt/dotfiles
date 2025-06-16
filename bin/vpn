@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Note: This requires that you've set up your computer's host network
+# configuration to use a SOCKS Proxy
+# Proxy IP: 0.0.0.0:8080 or 127.0.0.1:8080
+
+# GLOBALS
+# Find out where this script is executing
+SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+PIDFILE="$SCRIPT_PATH/ssh_vpn.pid"
+
+
+function usage {
+    echo "Usage: ssh_vpn.sh {open|close|force-start|force-stop|status}"
+}
+
+function open {
+    if [[ "$PID" ]]; then
+        echo "The tunnel appears to be open (PID $PID)"
+    else
+        #ssh -D 8080 -f -C -q -N thompson_VMHOST
+        # -f requests the ssh command to background just before execution, we wnat
+        # to do this manually
+        ssh -D 8080 -C -q -N thompson_VMHOST &
+        PID=$!
+        echo $PID > $PIDFILE
+    fi
+}
+
+function close {
+    if [[ -z "$PID" ]]; then
+        echo "Tunnel is not open (missing PID)"
+        echo "" > $PIDFILE
+    else
+        echo "Killing process $PID"
+        kill $PID
+        echo "" > $PIDFILE
+        echo "Tunnel closed"
+    fi
+}
+
+function status {
+    if [[ -z "$PID" ]]; then
+        echo "Tunnel is not open (missing PID)"
+    else
+        echo "Tunnel: OPEN"
+        echo "PID: $PID"
+        ps -p $PID
+    fi
+}
+
+if [[ -z "${1}" ]]; then
+    usage
+    exit 1
+fi
+
+# get PID from PIDFILE
+PID=$(cat ${PIDFILE});
+
+case "$1" in
+    open)
+        open;
+        exit 1;
+        ;;
+    close)
+        close;
+        exit 1;
+        ;;
+    status)
+        status;
+        exit 1;
+        ;;
+    *)
+        usage
+        exit 4
+        ;;
+esac
+
+exit 0

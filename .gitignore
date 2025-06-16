@@ -1,0 +1,17 @@
+
+# Editing and Compiling Artifacts
+*.pyc
+*.swp
+
+
+# Operating System Fingerprints
+.DS_Store
+
+
+# Files that vary from system to system
+.vim/.netrwhist
+
+# Build Directories
+
+# Process ID Files
+*.pid
