@@ -1,0 +1,12 @@
+---
+- name: Setup dotfiles and local environment
+  hosts: localhost
+  connection: local
+  vars:
+    ansible_python_interpreter: "{{ansible_playbook_python}}"
+
+  tasks:
+
+    - name: "Hello World: Verify that ansible is working"
+      ansible.builtin.debug:
+        msg: "Ansible is working with Python {{ansible_python_interpreter}}"

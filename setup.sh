@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # The "Tag List" plugin is a source code browser plugin for Vim and
 # provides an overview of the structure of source code files and allows
 # you to efficiently browse through source code files for different
@@ -6,6 +8,25 @@
 
 #      http://vim-taglist.sourceforge.net 
 
+
+# =========================================
+# Process feature flags
+# =========================================
+
+EXPERIMENTAL_USE_ANSIBLE_WIP=${EXPERIMENTAL_USE_ANSIBLE_WIP:-false}
+if [[ "$EXPERIMENTAL_USE_ANSIBLE_WIP" == "true" ]]; then
+    echo "Using experimental Ansible WIP setup"
+    uv run -- ansible-playbook playbook.yml
+    echo "Error: implementation is not complete"
+    exit 1
+fi
+
+FEATURE_LEGACY_SETUP_DISABLED=${FEATURE_LEGACY_SETUP_DISABLED:-true}
+if [[ "$FEATURE_LEGACY_SETUP_DISABLED" == "true" ]]; then
+    echo "Legacy setup is disabled by default during project cleanup"
+    echo "Enable with FEATURE_LEGACY_SETUP_DISABLED=false setup.sh"
+    exit 0
+fi
 
 
 # =========================================
