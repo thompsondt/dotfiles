@@ -1,0 +1,7 @@
+## Ignore 100% of the files in this directory by default to prevent leaking secrets
+*
+
+# Allow specific exceptions
+!.gitignore
+
+!README.md
